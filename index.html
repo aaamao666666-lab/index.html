@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f5ef">
+<title>星灵 AI 数字人</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f5ef;color:#303b34;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+header{padding:25px 20px 15px}
+.brand{font-size:13px;letter-spacing:3px;color:#83947d}
+h1{font-size:26px;margin:12px 0 5px}
+.sub{color:#879087;font-size:14px}
+main{padding:10px 18px 100px;max-width:600px;margin:auto}
+.page{display:none}.page.active{display:block}
+.hero{background:#e5eadf;border-radius:22px;padding:23px;margin:12px 0 20px}
+.hero h2{font-size:23px;margin:0 0 10px}
+.hero p{color:#69766b;line-height:1.7;font-size:14px}
+.photo{width:100%;height:180px;object-fit:cover;border-radius:16px;background:#dce3d7;margin-top:10px}
+.card{background:white;border:1px solid #e9ebe4;border-radius:18px;padding:18px;margin:13px 0}
+.card h3{margin:0 0 8px;font-size:17px}
+.card p{color:#899087;font-size:13px;line-height:1.6}
+.btn{display:block;width:100%;border:0;border-radius:13px;background:#738b70;color:white;padding:14px;font-size:15px;margin-top:12px}
+input[type=file]{display:none}
+.upload{display:block;text-align:center;background:#edf1e9;border:1px dashed #aab8a2;border-radius:13px;padding:15px;color:#61775e;margin-top:12px;font-size:14px}
+.preview{width:100%;max-height:300px;object-fit:contain;border-radius:13px;margin-top:12px;background:#f1f2ed}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e9ebe4;display:flex;padding:10px 5px calc(10px + env(safe-area-inset-bottom));justify-content:space-around}
+nav button{border:0;background:none;color:#92998f;font-size:13px;padding:8px}
+nav button.active{color:#587653;font-weight:bold}
+.small{font-size:12px;color:#9a9f96}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">XINGLING · DIGITAL HUMAN</div>
+<h1>星灵 AI 数字人</h1>
+<div class="sub">创造属于你的数字分身</div>
+</header>
+<main>
+<section class="page active" id="home">
+<div class="hero">
+<h2>让你的数字形象<br>拥有新的生命</h2>
+<p>从照片、视频到 3D 模型，开始创建你的专属数字人。</p>
+<button class="btn" onclick="showPage('studio')">开始创建</button>
+</div>
+<div class="card">
+<h3>数字人工作台</h3>
+<p>上传照片或视频，预览你的个人素材。</p>
+<button class="btn" onclick="showPage('studio')">进入工作台</button>
+</div>
+<div class="card">
+<h3>我的数字人</h3>
+<p>你的数字人作品和创作记录将在这里管理。</p>
+</div>
+</section>
+
+<section class="page" id="studio">
+<h2>数字人工作台</h2>
+<p class="sub">上传素材，开始准备你的数字分身。</p>
+<div class="card">
+<h3>上传人物照片</h3>
+<label class="upload" for="photoFile">选择照片</label>
+<input id="photoFile" type="file" accept="image/*">
+<img id="photoPreview" class="preview" hidden>
+</div>
+<div class="card">
+<h3>上传人物视频</h3>
+<label class="upload" for="videoFile">选择视频</label>
+<input id="videoFile" type="file" accept="video/*">
+<video id="videoPreview" class="preview" controls hidden></video>
+</div>
+<div class="card">
+<h3>导入 3D 模型</h3>
+<label class="upload" for="modelFile">选择 GLB 模型</label>
+<input id="modelFile" type="file" accept=".glb,.gltf">
+<p id="modelInfo" class="small">选择模型后会显示文件信息。目前尚未接入 3D 模型渲染。</p>
+</div>
+</section>
+
+<section class="page" id="mine">
+<h2>我的</h2>
+<div class="card">
+<h3>个人中心</h3>
+<p>星灵 AI 数字人 · 手机测试版</p>
+</div>
+<div class="card">
+<h3>我的素材</h3>
+<p>照片和视频目前仅在当前设备预览，不会自动上传到云端。</p>
+</div>
+<div class="card">
+<h3>功能状态</h3>
+<p>页面导航：已实现</p>
+<p>照片预览：已实现</p>
+<p>视频预览：已实现</p>
+<p>GLB 模型渲染：尚未接入</p>
+<p>AI 对话与数字人生成：尚未接入</p>
+</div>
+</section>
+</main>
+<nav>
+<button class="active" onclick="showPage('home',this)">⌂ 首页</button>
+<button onclick="showPage('studio',this)">◇ 工作台</button>
+<button onclick="showPage('mine',this)">○ 我的</button>
+</nav>
+<script>
+function showPage(id,btn){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+if(btn)btn.classList.add('active');
+else document.querySelectorAll('nav button')[1].classList.add('active');
+window.scrollTo(0,0);
+}
+document.getElementById('photoFile').onchange=e=>{
+const f=e.target.files[0];if(!f)return;
+const img=document.getElementById('photoPreview');
+img.src=URL.createObjectURL(f);img.hidden=false;
+};
+document.getElementById('videoFile').onchange=e=>{
+const f=e.target.files[0];if(!f)return;
+const v=document.getElementById('videoPreview');
+v.src=URL.createObjectURL(f);v.hidden=false;
+};
+document.getElementById('modelFile').onchange=e=>{
+const f=e.target.files[0];if(!f)return;
+document.getElementById('modelInfo').textContent='已选择：'+f.name+'（'+(f.size/1024/1024).toFixed(2)+' MB）。目前仅识别文件，尚未显示 3D 模型。';
+};
+</script>
+</body>
+</html>
